@@ -1,16 +1,20 @@
 <template>
     <div>
         <a @click="pictureTrue(src)" :style="{width:width , height: height }">
-            <img :src="src" alt="">
+            <img :src="src">
         </a>
-        <el-dialog class="picture" size="full" id="picture" v-model="picture" top="8%" :close-on-click-modal="false">
-            <div id="pic" class="main">
-                <img ref="pics" :src="pictureSrc" alt="">
+        <el-dialog class="picture" size="full" v-model="picture" top="8%" :before-close="whenClose" :close-on-click-modal="false">
+            <div ref="pic" class="main">
+                <img :src="pictureSrc" alt="">
             </div>
         </el-dialog>
     </div>
 </template>
 <script>
+/* 
+* 图片查看器
+* @param  src  width height
+*/
 let vm;
 export default {
     name: 'picview',
@@ -28,39 +32,36 @@ export default {
     },
     methods: {
         pic() {
-            document.body.onmousewheel = function (event) {
+            document.body.onmousewheel = function(event) {
                 event = event || window.event;
-
                 if (vm.picture == true) {
                     if (event.deltaY > 0) {
                         vm.scale = vm.scale > 0.2 ? vm.scale - 0.1 : vm.scale;
                     } else {
                         vm.scale += 0.1;
                     }
-                    $('#pic img').css("transform", "scale(" + vm.scale + ")")
+                    vm.$refs.pic.childNodes[0].style.transform = "scale(" + vm.scale + ")";
                 };
             };
             /* 拖拽 */
-            setTimeout(function () {
+            setTimeout(function() {
                 if (vm.picture) {
-                    var oDiv = vm.$refs.pics;
-
-                    oDiv.onmousedown = function (en) {
+                    var oDiv = vm.$refs.pic.childNodes[0];
+                    oDiv.onmousedown = function(en) {
                         var ev = ev || event;
                         var disX = en.clientX - oDiv.offsetLeft;
                         var disY = en.clientY - oDiv.offsetTop;
                         if (oDiv.setCapture) {
                             oDiv.setCapture();
                         }
-                        document.onmousemove = function (en) {
+                        document.onmousemove = function(en) {
                             var ev = ev || event;
-                            var left = $("#pic").offset().left;
-                            if (en.clientY > 0 && en.clientY < $("#pic").height() && en.clientX > 0 && en.clientX < $("#pic").width()) {
+                            if (en.clientY > 0 && en.clientY < vm.$refs.pic.clientHeight && en.clientX > 0 && en.clientX < vm.$refs.pic.clientWidth) {
                                 oDiv.style.top = en.clientY - disY + 'px';
                                 oDiv.style.left = en.clientX - disX + 'px';
                             }
                         }
-                        document.onmouseup = function () {
+                        document.onmouseup = function() {
                             document.onmousemove = null;
                             if (oDiv.releaseCapture) {
                                 oDiv.releaseCapture()
@@ -69,18 +70,20 @@ export default {
                         return false; //阻止默认行为（如果页面中有文字，则会默认拖动文字），ie8及一下不行
                     }
                 }
-
             }, 0)
         },
         pictureTrue(src) {
             vm.pictureSrc = src;
             vm.picture = true;
+            vm.pic();
+        },
+        whenClose(done) {
             /* 还原 */
             vm.scale = 1;
-            $('#pic img').css("transform", "scale(1)");
-            $('#pic img').css("top", "0");
-            $('#pic img').css("left", "0");
-            vm.pic();
+            vm.$refs.pic.childNodes[0].style.transform = "scale(1)";
+            vm.$refs.pic.childNodes[0].style.top = 0;
+            vm.$refs.pic.childNodes[0].style.left = 0;
+            done();
         }
     },
     watch: {
@@ -98,6 +101,7 @@ a {
         height: 100%;
     }
 }
+
 .picture {
     .main {
         position: relative;
