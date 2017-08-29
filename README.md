@@ -4,3 +4,4 @@
  ```js
  <picview src="http:chenyeah.cn/dev/1.jpg" width="200px" height="200px"></picview>
 ```
+![img](https://github.com/chenyeah/element-picview/raw/master/gif.gif) 
