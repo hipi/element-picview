@@ -3,9 +3,9 @@
         <a @click="pictureTrue(src)" :style="{width:width , height: height }">
             <img :src="src">
         </a>
-        <el-dialog class="picture" size="full" v-model="picture" top="8%" :before-close="whenClose" :close-on-click-modal="false">
+        <el-dialog class="picture" size="full" v-model="picture" top="8%" :before-close="whenClose" @open="whenOpen" :close-on-click-modal="false">
             <div ref="pic" class="main">
-                <img :src="pictureSrc" alt="">
+                <img :src="pictureSrc" alt="" :width="picW" :height="picH">
             </div>
         </el-dialog>
     </div>
@@ -23,6 +23,8 @@ export default {
             picture: false,
             scale: 1,
             pictureSrc: '',
+            picW: '',
+            picH: '',
         }
     },
     props: {
@@ -78,12 +80,36 @@ export default {
             vm.pic();
         },
         whenClose(done) {
-            /* 还原 */
-            vm.scale = 1;
-            vm.$refs.pic.childNodes[0].style.transform = "scale(1)";
-            vm.$refs.pic.childNodes[0].style.top = 0;
-            vm.$refs.pic.childNodes[0].style.left = 0;
             done();
+        },
+        countImg() {
+            let picW = vm.$refs.pic.childNodes[0].naturalWidth;
+            let picH = vm.$refs.pic.childNodes[0].naturalHeight;
+            let Width = vm.$refs.pic.offsetWidth;
+            let Height = vm.$refs.pic.offsetHeight;
+            if (picW >= picH) {
+                vm.picW = Width;
+                vm.picH = `${Number(picH) * Width / Number(picW)}`;
+                vm.$refs.pic.childNodes[0].style.top = `${(Height - vm.picH) / 2}px`;
+                vm.$refs.pic.childNodes[0].style.left = 0;
+            } else {
+                vm.picH = Height;
+                vm.picW = `${Number(picW) * Height / Number(picH)}`;
+                vm.$refs.pic.childNodes[0].style.left = `${(Width - vm.picW) / 2}px`;
+                vm.$refs.pic.childNodes[0].style.top = 0;
+            }
+        },
+        whenOpen() {
+            setTimeout(function() {
+                if (vm.$refs.pic.childNodes[0]) {
+                    vm.scale = 1;
+                    vm.$refs.pic.childNodes[0].style.transform = "scale(1)";
+                    vm.countImg();
+                    window.onresize = function() {
+                        vm.countImg();
+                    }
+                }
+            }, 0)
         }
     },
     watch: {
@@ -113,8 +139,7 @@ a {
         margin-top: -20px;
         overflow: hidden;
         img {
-            cursor: move;
-            width: 100%;
+            cursor: move; // width: 100%;
             border-radius: 8px;
             position: absolute;
         }
