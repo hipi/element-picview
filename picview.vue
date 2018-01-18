@@ -3,7 +3,7 @@
         <a @click="pictureTrue(src)" :style="{width:width , height: height }">
             <img :src="src">
         </a>
-        <el-dialog class="picture" size="full" v-model="picture" top="8%" :before-close="whenClose" @open="whenOpen" :close-on-click-modal="false">
+        <el-dialog class="picture" size="full" v-model="picture" :before-close="whenClose" @open="whenOpen" :close-on-click-modal="false">
             <i @click="rote" class="xuzhuan" style="position:absolout"></i>
             <div ref="pic" class="main" @click="close($event)">
 
