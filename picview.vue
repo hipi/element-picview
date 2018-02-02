@@ -6,7 +6,6 @@
         <el-dialog class="picture" size="full" v-model="picture" :before-close="whenClose" @open="whenOpen" :close-on-click-modal="false">
             <i @click="rote" class="xuzhuan" style="position:absolout"></i>
             <div ref="pic" class="main" @click="close($event)">
-
                 <img :src="pictureSrc" alt="" :width="picW" :height="picH" @click="clickimg($event)">
             </div>
         </el-dialog>
