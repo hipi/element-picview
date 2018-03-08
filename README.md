@@ -23,3 +23,5 @@
 ```
 ### 效果
 ![img](https://github.com/chenyeah/element-picview/raw/master/gif.gif) 
+#### 声明
+业务需求紧 就直接基于element-ui 做了 后期做个不依赖element-ui的vue组件
