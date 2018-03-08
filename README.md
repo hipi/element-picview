@@ -1,6 +1,6 @@
 # element-picview
 基于vue element-ui 图片拖拽放大缩小查看组件
-# 用法
+## 用法
  >组件例子
  ```vue
    <template>
@@ -21,5 +21,5 @@
    };
    </script>
 ```
-# 效果
+## 效果
 ![img](https://github.com/chenyeah/element-picview/raw/master/gif.gif) 
