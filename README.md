@@ -1,5 +1,6 @@
 # element-picview
 基于vue element-ui 图片拖拽放大缩小查看组件
+> 适配了最新element-ui版本
 ### 用法
  >组件例子
  ```vue
