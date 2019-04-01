@@ -122,16 +122,22 @@ export default {
       let Width = vm.$refs.pic.offsetWidth;
       let Height = vm.$refs.pic.offsetHeight;
       if (Width / Height <= picW / picH) {
+        if (Width > picW) {
+          Width = picW;
+        }
         vm.picW = Width;
         vm.picH = `${(Number(picH) * Width) / Number(picW)}`;
         vm.picTop = `${(Height - vm.picH) / 2}px`;
-        vm.picLeft = 0;
+        vm.picLeft = `${(vm.$refs.pic.offsetWidth - vm.picW) / 2}px`;
         vm.isPicShow = true;
       } else {
+        if (Height > picH) {
+          Height = picW;
+        }
         vm.picH = Height;
         vm.picW = `${(Number(picW) * Height) / Number(picH)}`;
         vm.picLeft = `${(Width - vm.picW) / 2}px`;
-        vm.picTop = 0;
+        vm.picTop = `${(vm.$refs.pic.offsetHeight - vm.picH) / 2}px`;
         vm.isPicShow = true;
       }
     }
