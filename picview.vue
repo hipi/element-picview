@@ -155,6 +155,7 @@ a img {
 }
 .main img {
   position: absolute;
+  cursor: all-scroll;
 }
 .picture /deep/ .el-dialog__header {
   display: none;
