@@ -154,6 +154,8 @@ a {
 a img {
   width: 100%;
   height: 100%;
+  cursor: -webkit-zoom-in;
+  cursor: zoom-in;
 }
 .main {
   width: 100%;
@@ -190,4 +192,3 @@ a img {
   user-select: none;
 }
 </style>
-
